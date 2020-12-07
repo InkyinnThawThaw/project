@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+    <style type="text/css">
+
+        body{
+            background-image: url('photo/pink-bg.jpg');
+        }
+
+        #forHead{
+            border: solid 1px black;
+            padding: 10px;
+            width: 230px;
+            border-radius: 10px;
+            margin-top: 20%;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #e7b3b3;
+            color: #3f3b3b;
+            position: relative;
+
+        }
+
+        #forList
+        {
+            border: solid 1px black;
+            padding: 10px;
+            padding-left: 0px;
+            width: 240px;
+            border-radius: 15px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color:#575151;
+            color: #e7b3b3;
+            position: absolute;
+            top: 230px;
+            left: 215px;
+            position: fixed;
+            font-family: Oswald;
+        }
+
+        h2{
+            margin-bottom: 10px;
+            padding: 0px;
+            display: inline-block;
+        }
+
+
+        input,button
+        {
+            border-style: none;
+            background-color: #e7b3b3;
+            color:#3f3b3b;
+        }
+
+        input
+        {
+            margin-bottom: 30px;
+
+        }
+
+        #input:focus,button:focus
+        {
+            outline: none;
+        }
+
+        .del-btn, .edit-btn
+        {
+            background-color: #575151;
+            color: #e7b3b3;
+        }
+
+        #addBtn
+        {
+            position: absolute;
+            top: 40px;
+        }
+
+        ul
+        {
+            list-style: none;
+        }
+
+        li
+        {
+
+            padding-bottom: 15px;
+        }
+
+        span
+        {
+            width: 130px;
+            display: inline-block;
+            margin-left: 0px;
+        }
+
+        span:hover
+        {
+            color: lightslategrey;
+        }
+
+        .del-btn:hover
+        {
+            color: rgb(250, 35, 35);
+        }
+
+        .edit-btn:hover
+        {
+            color: royalblue;
+        }
+
+
+
+    </style>
+    <title>To Do List</title>
+</head>
+<body>
+
+    <div id="forHead">
+    <h2>To Do List</h2>
+    <input type="text" id="input" placeholder="Say Something..." autofocus>
+    <button id="addBtn" onclick="addList()"><i class="far fa-plus-square fa-3x"></i></button>
+    </div>
+
+    <div id = "forList" >
+    <ul id="list"> 
+        <!-- <li>Apple</li>
+        <li>Orange</li>
+        <li>Banana</li> -->
+    </ul>
+
+    <script>
+
+        let minTextLength = 3;
+        let i = 1;
+        let getInput = document.getElementById("input");
+        let list =  document.getElementById("list");
+
+        //To manage input
+        function textFilter(x)
+        {
+            if(x)
+            {
+                if(x.length >= minTextLength)
+                {
+                    return x;
+                }
+                else
+                {
+                    alert("Minimum input text must be 3");
+                    return false;
+                }
+        
+            }
+            else
+            {
+                alert("Empty Input");
+                return false;
+            }
+        }
+
+        function showList(text)
+        {
+            list.innerHTML += `
+                <li class="list-item" id="list${i}">
+                    <span id ="listText${i}">${text}</span>
+                    <button class="del-btn" onclick='deleteList(${i})'><i class="fas fa-trash-alt"></i></button>
+                    <button class="edit-btn" onclick='editList(${i})'><i class="fas fa-edit"></i></button>
+               </li> 
+            `;
+               i++;
+        }
+
+        //To delete
+        function deleteList(listId)
+        {
+            let current = document.getElementById(`list${listId}`);
+            let currentText = document.getElementById(`listText${listId}`).innerHTML;
+            let deleteConfirm = confirm(`Are u sure to delete '${currentText}'?`);
+
+            if(deleteConfirm)
+            {
+                list.removeChild(current);
+            }else
+            {
+                console.log("delete cancel");
+            }
+           
+        }
+        
+        //To edit
+        function editList(listId)
+        {
+            let current = document.getElementById(`listText${listId}`);
+            let newText = prompt("Change your text" , current.innerHTML);
+            if(textFilter(newText))
+            {
+                current.innerHTML = newText;
+            }
+            
+        }
+
+        //To do event button 
+        function addList()
+        {
+            let inputText = textFilter(getInput.value);
+
+            if(inputText)
+            {
+                showList(inputText);
+                getInput.value = "";
+            } 
+        }
+
+    </script>
+    </div>
+</body>
+</html>
